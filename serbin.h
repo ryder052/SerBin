@@ -71,7 +71,10 @@ namespace serbin
     inline SerBin<std::ios::out>& operator<<(SerBin<std::ios::out>& writer, const std::unique_ptr<T>& object)
     {
         writer << bool(object);
-        writer << *object;
+
+        if (object)
+            writer << *object;
+
         return writer;
     }
 
@@ -94,7 +97,10 @@ namespace serbin
     inline SerBin<std::ios::out>& operator<<(SerBin<std::ios::out>& writer, const std::shared_ptr<T>& object)
     {
         writer << bool(object);
-        writer << *object;
+
+        if (object)
+            writer << *object;
+
         return writer;
     }
 
@@ -432,7 +438,7 @@ namespace serbin
     template<typename T>
     inline SerBin<std::ios::out>& operator<<(SerBin<std::ios::out>& writer, const std::optional<T>& object)
     {
-        bool hasValue = object;
+        bool hasValue = bool(object);
         writer << hasValue;
 
         if (hasValue)
